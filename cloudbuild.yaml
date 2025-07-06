@@ -28,3 +28,7 @@ steps:
       - 'managed'
       - '--allow-unauthenticated' # Adjust as needed for authentication
     entrypoint: 'gcloud'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
