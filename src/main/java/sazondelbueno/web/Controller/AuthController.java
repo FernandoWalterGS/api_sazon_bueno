@@ -12,7 +12,7 @@ import sazondelbueno.web.Service.AuthService;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@CrossOrigin("*")
+
 public class AuthController {
     private final AuthService authService;
 

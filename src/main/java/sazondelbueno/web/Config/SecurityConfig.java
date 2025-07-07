@@ -50,7 +50,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*")); // Allow all origins
+        configuration.setAllowedOrigins(List.of("https://sazonapp-322e1.web.app")); // Allow specific origin
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Allow all methods
         configuration.setAllowedHeaders(List.of("*")); // Allow all headers
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
