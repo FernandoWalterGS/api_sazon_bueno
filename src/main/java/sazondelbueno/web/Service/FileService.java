@@ -1,40 +1,49 @@
 package sazondelbueno.web.Service;
 
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import sazondelbueno.web.Utils.ApiResponse;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.S3Exception;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
 import java.util.UUID;
 
-@RequiredArgsConstructor
 @Service
 public class FileService {
 
-    @Autowired
-    private Storage storage;
+    private final S3Client s3Client;
 
-    @Value("${gcp.bucket.name}")
+    @Value("${aws.s3.bucket.name}")
     private String bucketName;
 
-    @Value("${gcp.bucket.url}")
-    private String bucketUrl;
+    public FileService(S3Client s3Client) {
+        this.s3Client = s3Client;
+    }
 
     public ApiResponse uploadFile(String key, MultipartFile file) throws IOException {
         String type = Objects.requireNonNull(file.getContentType()).split("/")[1];
         String fileName = UUID.randomUUID().toString() + "." + type;
 
-        BlobId blobId = BlobId.of(bucketName, fileName);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(file.getContentType()).build();
-        storage.create(blobInfo, file.getBytes());
+        try {
+            PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(fileName)
+                    .contentType(file.getContentType())
+                    .build();
 
-        return new ApiResponse("File uploaded successfully!", bucketUrl + "/" + fileName);
+            s3Client.putObject(putObjectRequest, RequestBody.fromBytes(file.getBytes()));
+
+            URL fileUrl = s3Client.utilities().getUrl(builder -> builder.bucket(bucketName).key(fileName));
+
+            return new ApiResponse("File uploaded successfully!", fileUrl.toString());
+        } catch (S3Exception e) {
+            throw new IOException("Failed to upload file to S3: " + e.getMessage(), e);
+        }
     }
 }

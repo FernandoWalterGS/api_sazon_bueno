@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import sazondelbueno.web.Model.Category;
 import sazondelbueno.web.Repository.CategoryRepository;
 
@@ -16,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
+@ActiveProfiles("test")
+@TestPropertySource(locations = "classpath:application-test.properties")
 class CategoryServiceTest {
 
     @Mock
