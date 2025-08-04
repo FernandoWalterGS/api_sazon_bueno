@@ -11,7 +11,7 @@ import sazondelbueno.web.Service.RecipeService;
 import java.util.List;
 @RestController
 @RequestMapping("/public/recipes")
-@CrossOrigin("*")
+
 public class PublicController {
 
     @Autowired

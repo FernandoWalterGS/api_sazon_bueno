@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/difficulty")
-@CrossOrigin("*")
+
 
 public class DifficultyController {
     @Autowired

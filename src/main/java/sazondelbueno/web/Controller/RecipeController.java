@@ -14,7 +14,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/recipe")
-@CrossOrigin("*")
+
 public class RecipeController {
 
     @Autowired

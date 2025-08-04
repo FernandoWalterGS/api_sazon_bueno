@@ -14,7 +14,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/storage")
-@CrossOrigin("*")
+
 public class FileController {
 
     @Autowired

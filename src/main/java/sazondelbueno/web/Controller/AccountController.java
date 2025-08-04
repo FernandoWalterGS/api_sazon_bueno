@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/account")
-@CrossOrigin("*")
+
 public class AccountController {
 
     @Autowired
