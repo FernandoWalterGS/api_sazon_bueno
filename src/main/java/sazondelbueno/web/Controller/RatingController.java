@@ -15,7 +15,7 @@ import java.util.Objects;
 
 @Controller
 @RequestMapping("/rating")
-@CrossOrigin("*")
+
 
 public class RatingController {
 

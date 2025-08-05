@@ -11,13 +11,11 @@ import sazondelbueno.web.Service.AuthService;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin("*")
+
 @RequiredArgsConstructor
 
 public class AuthController {
     private final AuthService authService;
-
-
     @PostMapping("/login")
     public Object login(@RequestBody LoginRequest request) throws Exception {
         System.out.println(request);

@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/favorite")
-@CrossOrigin("*")
+
 
 public class FavoriteController {
 
