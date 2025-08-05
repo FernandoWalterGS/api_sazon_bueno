@@ -11,8 +11,9 @@ phases:
       - echo "Logging in to Amazon ECR..."
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - echo "Logging in to Docker Hub..."
-      - DOCKERHUB_USERNAME=$(aws secretsmanager get-secret-value --secret-id $DOCKERHUB_SECRET_ARN --query SecretString --output text | jq -r .username)
-      - DOCKERHUB_PASSWORD=$(aws secretsmanager get-secret-value --secret-id $DOCKERHUB_SECRET_ARN --query SecretString --output text | jq -r .password)
+      - SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id $DOCKERHUB_SECRET_ARN --query SecretString --output text)
+      - DOCKERHUB_USERNAME=$(echo $SECRET_JSON | jq -r .username)
+      - DOCKERHUB_PASSWORD=$(echo $SECRET_JSON | jq -r .password)
       - echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
   build:
     commands:
