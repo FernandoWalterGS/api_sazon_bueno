@@ -1,5 +1,5 @@
-# Usa una imagen base con Java y Maven para la fase de construcción
-FROM maven:3.9.6-eclipse-temurin-17 AS build
+# Usa una imagen base con Java y Maven para la fase de construcción de Amazon ECR Public
+FROM public.ecr.aws/docker/library/maven:3.9.6-eclipse-temurin-17 AS build
 
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
@@ -17,8 +17,8 @@ COPY application.properties .
 # Construye la aplicación Spring Boot en un JAR ejecutable
 RUN mvn clean install -DskipTests
 
-# Usa una imagen base más ligera para la fase de ejecución
-FROM openjdk:17-jdk-slim
+# Usa una imagen base más ligera para la fase de ejecución de Amazon ECR Public
+FROM public.ecr.aws/docker/library/openjdk:17-jdk-slim
 
 # Establece el directorio de trabajo
 WORKDIR /app
