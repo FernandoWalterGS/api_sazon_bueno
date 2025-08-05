@@ -1,8 +1,7 @@
 version: 0.2
 env:
-  secrets-manager:
-    DOCKERHUB_USERNAME: "arn:aws:secretsmanager:us-east-1:628710293316:secret:dockerhub/credentials-pxjR54:username"
-    DOCKERHUB_PASSWORD: "arn:aws:secretsmanager:us-east-1:628710293316:secret:dockerhub/credentials-pxjR54:password"
+  variables:
+    DOCKERHUB_SECRET_ARN: "arn:aws:secretsmanager:us-east-1:628710293316:secret:dockerhub/credentials-pxjR54"
 phases:
   install:
     runtime-versions:
@@ -12,6 +11,8 @@ phases:
       - echo "Logging in to Amazon ECR..."
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - echo "Logging in to Docker Hub..."
+      - DOCKERHUB_USERNAME=$(aws secretsmanager get-secret-value --secret-id $DOCKERHUB_SECRET_ARN --query SecretString --output text | jq -r .username)
+      - DOCKERHUB_PASSWORD=$(aws secretsmanager get-secret-value --secret-id $DOCKERHUB_SECRET_ARN --query SecretString --output text | jq -r .password)
       - echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
   build:
     commands:
