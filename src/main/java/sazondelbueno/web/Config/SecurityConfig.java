@@ -37,6 +37,7 @@ public class SecurityConfig {
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/storage/**").permitAll()
                                 .requestMatchers("/public/**").permitAll()
+                                .requestMatchers("/actuator/health").permitAll() // Añadir esta línea
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManager ->
