@@ -35,9 +35,10 @@ public class SecurityConfig {
                         authRequest
                                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                 .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/storage/upload").permitAll()
                                 .requestMatchers("/storage/**").permitAll()
                                 .requestMatchers("/public/**").permitAll()
-                                .requestMatchers("/actuator/health").permitAll() // Añadir esta línea
+                                .requestMatchers("/actuator/health").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManager ->
