@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/category")
+@CrossOrigin("*")
 
 
 public class CategoryController {

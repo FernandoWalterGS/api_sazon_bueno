@@ -11,6 +11,7 @@ import sazondelbueno.web.Service.AuthService;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin("*")
 @RequiredArgsConstructor
 
 public class AuthController {
