@@ -1,8 +1,8 @@
 version: 0.2
 env:
   secrets-manager:
-    DOCKERHUB_USERNAME: arn:aws:secretsmanager:us-east-1:628710293316:secret:dockerhub/credentials-pxjR54:username
-    DOCKERHUB_PASSWORD: arn:aws:secretsmanager:us-east-1:628710293316:secret:dockerhub/credentials-pxjR54:password
+    DOCKERHUB_USERNAME: "arn:aws:secretsmanager:us-east-1:628710293316:secret:dockerhub/credentials-pxjR54:username"
+    DOCKERHUB_PASSWORD: "arn:aws:secretsmanager:us-east-1:628710293316:secret:dockerhub/credentials-pxjR54:password"
 phases:
   install:
     runtime-versions:
