@@ -10,7 +10,6 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -21,6 +20,9 @@ public class FileService {
 
     @Value("${aws.s3.bucket.name}")
     private String bucketName;
+
+    @Value("${aws.cloudfront.domain}")
+    private String cloudfrontDomain;
 
     public FileService(S3Client s3Client) {
         this.s3Client = s3Client;
@@ -39,9 +41,9 @@ public class FileService {
 
             s3Client.putObject(putObjectRequest, RequestBody.fromBytes(file.getBytes()));
 
-            URL fileUrl = s3Client.utilities().getUrl(builder -> builder.bucket(bucketName).key(fileName));
+            String fileUrl = "https://" + cloudfrontDomain + "/" + fileName;
 
-            return new ApiResponse("File uploaded successfully!", fileUrl.toString());
+            return new ApiResponse("File uploaded successfully!", fileUrl);
         } catch (S3Exception e) {
             throw new IOException("Failed to upload file to S3: " + e.getMessage(), e);
         }
